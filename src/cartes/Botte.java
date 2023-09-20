@@ -6,6 +6,7 @@ public class Botte extends Probleme {
 		super(type,nbr);
 	}
 	
+	@Override
 	public String toString(){
 		switch (this.getType()) {
 		case FEU: {

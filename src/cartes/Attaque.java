@@ -6,6 +6,7 @@ public class Attaque extends Bataille {
 		super(type,nbr);
 	}
 	
+	@Override
 	public String toString(){
 		switch (this.getType()) {
 		case FEU: {

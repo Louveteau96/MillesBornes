@@ -1,7 +1,6 @@
 package jeu;
 import cartes.*;
 
-import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -75,6 +74,7 @@ public class Sabot implements Iterator<Carte>{
 
 	@Override
 	public boolean hasNext() {
+		nextEffectue = false;
 		return nbCartes < 110;
 	}
 
@@ -93,11 +93,13 @@ public class Sabot implements Iterator<Carte>{
 	@Override
 	public void remove() {
 		verifOccurrence();
-		if(nbCartes < 1 || nextEffectue) {
+		if(nbCartes < 1) {
 			throw new IllegalStateException();
 		}else {
 			tableauDeCartes[indiceIterator] = null;
-			indiceIterator++;
+			nextEffectue = false;
+			nbCartes--;
+			nbCartesReference--;
 		}
 		
 	}
