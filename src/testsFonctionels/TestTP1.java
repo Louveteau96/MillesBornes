@@ -27,8 +27,6 @@ public class TestTP1 {
 		affichage(sabot.piocher());
 		affichage(sabot.piocher());
 		affichage(sabot.piocher());
-		
-		
 
 	}
 

@@ -93,7 +93,7 @@ public class Sabot implements Iterator<Carte>{
 	@Override
 	public void remove() {
 		verifOccurrence();
-		if(nbCartes < 1) {
+		if(nbCartes < 1 || !nextEffectue) {
 			throw new IllegalStateException();
 		}else {
 			tableauDeCartes[indiceIterator] = null;

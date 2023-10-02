@@ -15,4 +15,14 @@ public abstract class Carte {
 		this.nombre = nombre;
 	}
 	
+	
+	
+	
+	
+	public boolean equals(Object carte) {
+		return  this.getClass()==carte.getClass();
+	}
+
+
+	
 }
