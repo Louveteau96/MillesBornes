@@ -1,6 +1,9 @@
 package cartes;
 
+import java.util.Iterator;
+
 import cartes.Probleme.Type;
+
 
 public class JeuDeCartes {
 	private Carte[] typeDeCarte = {
@@ -29,21 +32,15 @@ public class JeuDeCartes {
 	new Borne(100, 12),
 	new Borne(200, 4)};
 	
-	private Carte[] listeCartes= new Carte[110];
+	private Carte[] listeCartes= new Carte[106];
 	
 	public JeuDeCartes() {
 		int indexTab = 0;
 		for (int i = 0; i < typeDeCarte.length; i++) {
-			System.out.println("coucou");
 			Carte famille = typeDeCarte[i];
-			System.out.println("salut");
 			for (int j = 0; j < famille.getNombre() ; j++) {
-				System.out.println("Jaques");
 				listeCartes[indexTab] = famille;
-				System.out.println("marcel");
-				listeCartes[indexTab].setNombre(1);
 				indexTab++;
-				System.out.println("salut les zouzous");
 			}
 		}
 	}
@@ -52,13 +49,19 @@ public class JeuDeCartes {
 		StringBuilder message = new StringBuilder();
 		for (int i = 0; i < listeCartes.length; i++) {
 			message.append(listeCartes[i]);
+			message.append("\n");
 		}
 		System.out.println(message);
 	}
 	
 	
 	public boolean checkCount() {
-		return listeCartes.length == 106;
+		for (int i = 0; i < listeCartes.length; i++) {
+			if (listeCartes[i]==null) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 }

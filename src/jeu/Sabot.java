@@ -52,14 +52,14 @@ public class Sabot implements Iterator<Carte>{
 	public Carte piocher() {
 		if(!estVide()) {
 			Carte carte = tableauDeCartes[indiceIterator];
-			remove();
 			if(hasNext()) {
 				next();
+				remove();
+				return carte;
 			}
-			return carte;
-		}else {
-			throw new IllegalStateException();
+			throw new IllegalStateException("no next");
 		}
+		throw new IllegalStateException("La liste est vide");
 	}
 	
 	////////////////////////////////
@@ -93,10 +93,13 @@ public class Sabot implements Iterator<Carte>{
 	@Override
 	public void remove() {
 		verifOccurrence();
-		if(nbCartes < 1 || !nextEffectue) {
-			throw new IllegalStateException();
+		if(nbCartes < 1) {
+			throw new IllegalStateException("Il n'y a pas de cartes à retirer");
+		}else if(!nextEffectue) {
+			throw new IllegalStateException("not nextEffectué");
 		}else {
-			tableauDeCartes[indiceIterator] = null;
+			
+			tableauDeCartes[indiceIterator-1] = null;
 			nextEffectue = false;
 			nbCartes--;
 			nbCartesReference--;
