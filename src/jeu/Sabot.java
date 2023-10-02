@@ -98,7 +98,6 @@ public class Sabot implements Iterator<Carte>{
 		}else if(!nextEffectue) {
 			throw new IllegalStateException("not nextEffectué");
 		}else {
-			
 			tableauDeCartes[indiceIterator-1] = null;
 			nextEffectue = false;
 			nbCartes--;
