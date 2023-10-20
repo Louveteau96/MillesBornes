@@ -13,7 +13,7 @@ public class Utils {
 	
 	
 	//La version sans le listeIterator
-	public static Object extraire(List<Object> list) {
+	public static Object extraire(List<? extends Object> list) {
 		Random random = new Random();
 		int rand = random.nextInt(list.size());
 		if(list.get(rand) instanceof Carte) {
@@ -26,12 +26,13 @@ public class Utils {
 	
 	
 	//La version avec le listeIterator
-	public static Object extraireIterator(List<Object> list) {
+	public static Object extraireIterator(List<? extends Object> list) {
 		Random random = new Random();
 		Carte carte = null;
 		int rand = random.nextInt(list.size());
+		//Si l'élément est une carte
 		if(list.get(rand) instanceof Carte) {
-			ListIterator<Object> iterator = list.listIterator();
+			ListIterator<?> iterator = list.listIterator();
 			while(iterator.hasNext() && carte!=list.get(rand)) {
 				if(iterator.next() instanceof Carte) {
 					carte = (Carte) iterator.next();
@@ -45,12 +46,13 @@ public class Utils {
 		throw new IllegalStateException("extraireIterator erreur");
 	}
 	
-	public static List<Carte> melanger(List<Object> list1){
-		ArrayList<Carte> list2 = new ArrayList<>();
+	public static List<Object> melanger(List<? extends Object> list1){
+		ArrayList<Object> list2 = new ArrayList<>();
 		while(!list1.isEmpty()) {
 			Object carte = extraire(list1);
+			//Si c'est une Carte
 			if(carte instanceof Carte) {
-				list2.add((Carte) carte);
+				list2.add(carte);
 			}else {
 				throw new IllegalStateException("Le type des object de la liste donné n'est pas prévu");
 			}
@@ -60,8 +62,9 @@ public class Utils {
 	
 	
 	
-	public static Object verifierMelange(List<Object> list1, List<Object> list2) {
+	public static Object verifierMelange(List<? extends Object> list1, List<? extends Object> list2) {
 		for (int i = 0; i < list1.size(); i++) {
+			//Si les deux éléments des listes sont des Cartes
 			if(list1.get(i) instanceof Carte && list2.get(i) instanceof Carte) {
 				int frq1 = Collections.frequency(list1, list1.get(i));
 				int frq2 = Collections.frequency(list2, list1.get(i));
@@ -75,14 +78,15 @@ public class Utils {
 		return true;
 	}
 	
-	public static List<?> rassembler(List<Object> list1){
-		ArrayList<Carte> list2 = new ArrayList<>();
+	public static List<Object> rassembler(List<? extends Object> list1){
+		List<Object> list2 = new ArrayList<>();
 		for (int i = 0; i < list1.size(); i++) {
 			Object object = list1.get(i);
+			//Si c'est une carte
 			if(object instanceof Carte) {
 				if(!list2.contains(object)) {
 					for (int j = 1; j < Collections.frequency(list1, object); j++) {
-						list2.add((Carte) object);
+						list2.add(object);
 					}
 					list1.removeAll((Collection<?>)object);
 				}
@@ -93,11 +97,11 @@ public class Utils {
 		return list2;
 	}
 	
-	public static boolean verifierRassemblement(List<Object> list1) {
+	public static boolean verifierRassemblement(List<? extends Object> list1) {
 		int indexFin = list1.size()-1;
 		int index = 0;
-		ListIterator<Object> listIteratorDebut = list1.listIterator();
-		ListIterator<Object> listIteratorFin = list1.listIterator(indexFin);
+		ListIterator<?> listIteratorDebut = list1.listIterator();
+		ListIterator<?> listIteratorFin = list1.listIterator(indexFin);
 		while(listIteratorDebut.hasNext()) {
 			while(listIteratorDebut.next().equals(listIteratorDebut)) {
 				listIteratorDebut.next();

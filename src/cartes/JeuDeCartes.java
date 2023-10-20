@@ -1,6 +1,8 @@
 package cartes;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import cartes.Probleme.Type;
 
@@ -62,6 +64,12 @@ public class JeuDeCartes {
 			}
 		}
 		return true;
+	}
+
+	public List<Carte> getListeCartes() {
+		List<Carte> liste = new ArrayList<>();
+		liste.addAll(liste);
+		return liste;
 	}
 
 }

@@ -1,6 +1,9 @@
 package testsFonctionels;
 
 import jeu.*;
+
+import java.util.Iterator;
+
 import cartes.*;
 import cartes.Probleme.Type;
 
@@ -20,6 +23,12 @@ public class TestTP1 {
 		
 		Sabot sabot = new Sabot();
 		sabot.ajouterFamilleCarte(familleAccident, familleReparation, familleAsDuVolant);
+		
+		for (Iterator iterator = collection.iterator(); iterator.hasNext();) {
+			type type = (type) iterator.next();
+			
+		}
+
 		
 		affichage(sabot.piocher());
 		affichage(sabot.piocher());
