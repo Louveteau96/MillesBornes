@@ -25,8 +25,9 @@ public class TestTP1 {
 		sabot.ajouterFamilleCarte(familleAccident, familleReparation, familleAsDuVolant);
 		
 		for (Iterator iterator = collection.iterator(); iterator.hasNext();) {
-			type type = (type) iterator.next();
-			
+			Carte carte = (Carte) iterator.next();
+			affichage(carte);
+			iterator.remove();			
 		}
 
 		
