@@ -2,6 +2,7 @@ package testsFonctionels;
 
 import jeu.*;
 
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 
 import cartes.*;
@@ -19,24 +20,23 @@ public class TestTP1 {
 	public static void main(String[] args) {
 		Carte familleAccident = new Attaque(Type.ACCIDENT,2);
 		Carte familleReparation = new Parade(Type.ACCIDENT,3);
-		Carte familleAsDuVolant = new Botte(Type.ACCIDENT,1);
 		
 		Sabot sabot = new Sabot();
-		sabot.ajouterFamilleCarte(familleAccident, familleReparation, familleAsDuVolant);
+		sabot.ajouterFamilleCarte(familleAccident, familleReparation);
 		
-		for (Iterator iterator = collection.iterator(); iterator.hasNext();) {
-			Carte carte = (Carte) iterator.next();
-			affichage(carte);
-			iterator.remove();			
-		}
-
+		// Utilisation d'un itérateur et remove
+        while (sabot.hasNext()) {
+            System.out.println("Je pioche " + sabot.next());
+            sabot.remove();
+        }
 		
-		affichage(sabot.piocher());
-		affichage(sabot.piocher());
-		affichage(sabot.piocher());
-		affichage(sabot.piocher());
-		affichage(sabot.piocher());
-		affichage(sabot.piocher());
+		// Ajout de "As du volant" et tentative de piocher
+		Carte familleAsDuVolant = new Botte(Type.ACCIDENT,1);
+        try {
+            System.out.println("Je pioche " + sabot.piocher());
+        } catch (ConcurrentModificationException e) {
+            System.out.println("Exception levée : " + e.getMessage());
+        }
 
 	}
 

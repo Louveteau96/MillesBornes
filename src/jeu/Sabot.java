@@ -89,21 +89,20 @@ public class Sabot implements Iterator<Carte>{
 			return tableauDeCartes[indiceIterator];
 		}
 	}
-	
-	@Override
-	public void remove() {
-		verifOccurrence();
-		if(nbCartes < 1) {
-			throw new IllegalStateException("Il n'y a pas de cartes à retirer");
-		}else if(!nextEffectue) {
-			throw new IllegalStateException("not nextEffectué");
-		}else {
-			tableauDeCartes[indiceIterator-1] = null;
-			nextEffectue = false;
-			nbCartes--;
-			nbCartesReference--;
-		}
-		
-	}
+
+    @Override
+    public void remove() {
+        if (nbCartes < 1) {
+            throw new IllegalStateException("Il n'y a pas de cartes à retirer");
+        } else if (!nextEffectue) {
+            throw new IllegalStateException("not nextEffectué");
+        } else {
+            tableauDeCartes[indiceIterator - 1] = null;
+            nextEffectue = false;
+            nbCartes--;
+            nbCartesReference --;
+        }
+    }
+
 
 }
