@@ -13,51 +13,35 @@ public class Utils {
 	
 	
 	//La version sans le listeIterator
-	public static Object extraire(List<? extends Object> list) {
+	public static <T>T extraire(List<T> list) {
+		if (list.isEmpty()) {
+            throw new IllegalArgumentException("La liste est vide.");
+        }
 		Random random = new Random();
 		int rand = random.nextInt(list.size());
-		if(list.get(rand) instanceof Carte) {
-			Carte carte = (Carte) list.get(rand);
-			list.remove(rand);
-			return carte;
-		}
-		throw new IllegalStateException("La liste n'est pas du type attendu");
+		return list.remove(rand);
 	}
 	
 	
 	//La version avec le listeIterator
-	public static Object extraireIterator(List<? extends Object> list) {
+	public static <T>T extraireIterator(List<T> list) {
 		Random random = new Random();
 		Carte carte = null;
 		int rand = random.nextInt(list.size());
-		//Si l'élément est une carte
-		if(list.get(rand) instanceof Carte) {
-			ListIterator<?> iterator = list.listIterator();
-			while(iterator.hasNext() && carte!=list.get(rand)) {
-				if(iterator.next() instanceof Carte) {
-					carte = (Carte) iterator.next();
-				}
-			}
-			if(carte==list.get(rand)) {
-				iterator.remove();
-				return carte;
-			}
+		ListIterator<T> iterator = list.listIterator();
+		while(iterator.hasNext() && carte != list.get(rand)) {
+			iterator.next();
 		}
-		throw new IllegalStateException("extraireIterator erreur");
+		T element = iterator.next();
+		return element;
 	}
 	
-	public static List<Object> melanger(List<? extends Object> list1){
-		ArrayList<Object> list2 = new ArrayList<>();
-		while(!list1.isEmpty()) {
-			Object carte = extraire(list1);
-			//Si c'est une Carte
-			if(carte instanceof Carte) {
-				list2.add(carte);
-			}else {
-				throw new IllegalStateException("Le type des object de la liste donné n'est pas prévu");
-			}
-		}
-		return list2;
+	
+	//Le mélange
+	public static <T> List<T> melanger(List<T> list){
+		ArrayList<T> resultat = new ArrayList<>(list);
+		Collections.shuffle(resultat);
+		return resultat;
 	}
 	
 	
