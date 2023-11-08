@@ -24,19 +24,34 @@ public class TestTP1 {
 		Sabot sabot = new Sabot();
 		sabot.ajouterFamilleCarte(familleAccident, familleReparation);
 		
+		
 		// Utilisation d'un itérateur et remove
-        while (sabot.hasNext()) {
-            System.out.println("Je pioche " + sabot.next());
-            sabot.remove();
+		Iterator<Carte> iterator = sabot.iterator();
+        while (iterator.hasNext()) {
+            Carte cartePiochee = iterator.next();
+            System.out.println("je pioche " + cartePiochee);
+            iterator.remove();
+            
         }
 		
 		// Ajout de "As du volant" et tentative de piocher
 		Carte familleAsDuVolant = new Botte(Type.ACCIDENT,1);
-        try {
-            System.out.println("Je pioche " + sabot.piocher());
-        } catch (ConcurrentModificationException e) {
-            System.out.println("Exception levée : " + e.getMessage());
-        }
+		sabot.ajouterFamilleCarte(familleAsDuVolant);
+		
+		//Parcours des éléments de Sabot
+		for(Carte c:sabot) {
+			//On déclence l'erreur concurent
+			try {
+	            System.out.println("Je pioche " + sabot.piocher());
+	        } catch (ConcurrentModificationException e) {
+	            System.out.println("Exception levée : " + e.getMessage());
+	        }
+			
+		}
+		
+		
+
+
 
 	}
 

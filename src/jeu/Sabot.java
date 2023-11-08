@@ -5,19 +5,14 @@ import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class Sabot implements Iterator<Carte>{
+public class Sabot implements Iterable<Carte>{
 	private Carte [] tableauDeCartes;
 	private int nbCartes;
-	private int indiceIterator;
-	private boolean nextEffectue;
-	private int nbCartesReference;
+	Iterator<Carte> iterator = iterator();
 
 	public Sabot() {
 		this.tableauDeCartes = new Carte[110];
-		this.indiceIterator =0;
-		this.nextEffectue = false;
 		this.nbCartes = 0;
-		this.nbCartesReference = 0;
 	}
 	
 	public boolean estVide() {
@@ -30,7 +25,6 @@ public class Sabot implements Iterator<Carte>{
 		}else {
 			tableauDeCartes[nbCartes] = carte;
 			nbCartes++;
-			nbCartesReference++;
 		}
 	}
 	
@@ -50,59 +44,79 @@ public class Sabot implements Iterator<Carte>{
 	}
 	
 	public Carte piocher() {
-		if(!estVide()) {
-			Carte carte = tableauDeCartes[indiceIterator];
-			if(hasNext()) {
-				next();
-				remove();
-				return carte;
-			}
-			throw new IllegalStateException("no next");
-		}
-		throw new IllegalStateException("La liste est vide");
-	}
+        if (iterator.hasNext()) {
+            Carte cartePiochee = iterator.next();
+            iterator.remove();
+            return cartePiochee;
+        } else {
+            throw new NoSuchElementException("Le sabot est vide, impossible de piocher.");
+        }
+    }
 	
 	////////////////////////////////
 	//Les Méthodes de l'itération//
 	//////////////////////////////
-	
-	public void verifOccurrence() {
-		if(nbCartes != nbCartesReference) {
-			throw new ConcurrentModificationException();
-		}
-	}
-
 	@Override
-	public boolean hasNext() {
-		nextEffectue = false;
-		return nbCartes < 110;
-	}
-
-	@Override
-	public Carte next() {
-		verifOccurrence();
-		if(!hasNext()) {
-			throw new NoSuchElementException();
-		}else{
-			indiceIterator++;
-			nextEffectue = true;
-			return tableauDeCartes[indiceIterator];
-		}
-	}
-
-    @Override
-    public void remove() {
-        if (nbCartes < 1) {
-            throw new IllegalStateException("Il n'y a pas de cartes à retirer");
-        } else if (!nextEffectue) {
-            throw new IllegalStateException("not nextEffectué");
-        } else {
-            tableauDeCartes[indiceIterator - 1] = null;
-            nextEffectue = false;
-            nbCartes--;
-            nbCartesReference --;
-        }
+    public Iterator<Carte> iterator() {
+        return new SabotIterator();
     }
+	
+	
 
+	
+	///////////////////
+	//Classe interne//
+	/////////////////
+	
+	private class SabotIterator implements Iterator<Carte> {
+        private int indiceIterator = 0;
+        private boolean nextEffectue = false;
+        private int nbCarteReference = nbCartes;
+        
+        public void verifOccurence() {
+        	if (nbCarteReference != nbCartes) {
+				throw new ConcurrentModificationException("Il y a plusieurs itérateurs");
+			}
+        }
+        
 
+        @Override
+        public boolean hasNext() {
+        	nextEffectue = false;        	
+    		return indiceIterator < nbCartes;
+        }
+
+        @Override
+    	public Carte next() {
+        	verifOccurence();
+    		if(!hasNext()) {
+    			throw new NoSuchElementException("Il n'y a plus d'éléments next");
+    		}else{
+    			Carte carte = tableauDeCartes[indiceIterator];
+    			indiceIterator++;
+    			nextEffectue = true;
+    			return carte;
+    		}
+    	}
+        
+        @Override
+        public void remove() {
+        	verifOccurence();
+            if (nbCartes < 1) {
+                throw new IllegalStateException("Il n'y a pas de cartes à retirer");
+            } else if (!nextEffectue) {
+                throw new IllegalStateException("not nextEffectue");
+            } else {
+            	//On décale tout le tableau
+            	for(int i = indiceIterator-1 ; i<109 ; i++) {
+            		tableauDeCartes[i] = tableauDeCartes[i+1];
+            	}
+                nextEffectue = false;
+                nbCartes--;
+                nbCarteReference--;
+                indiceIterator--;
+            }
+        }
+
+	}
 }
