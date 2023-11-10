@@ -3,6 +3,7 @@ package jeu;
 import java.util.List;
 import java.util.Set;
 import java.util.Stack;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 import cartes.Bataille;
@@ -22,15 +23,14 @@ public class Joueur {
 	private Stack<Limite> limitPile;
 	private Stack<Bataille> bataillePile;
 	
-	public Joueur(String nom, int km, MainAsList main, List<Borne> borneList, List<Botte> botteList,Stack<Limite> limitPile,
-			Stack<Bataille> bataillePile) {
+	public Joueur(String nom) {
 		this.nom = nom;
 		this.km = 0;
-		this.main = main;
-		this.borneList = borneList;
-		this.botteList = botteList;
-		this.limitPile = limitPile;
-		this.bataillePile = bataillePile;
+		this.main =  new MainAsList();
+		this.borneList = new ArrayList<>();
+		this.botteList = new ArrayList<>();
+		this.limitPile = new Stack<>();
+		this.bataillePile = new Stack<>();
 	}
 	
 	

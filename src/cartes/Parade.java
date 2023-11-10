@@ -1,5 +1,9 @@
 package cartes;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import cartes.Probleme.Type;
 import jeu.Joueur;
 
 public class Parade extends Bataille {
@@ -28,16 +32,5 @@ public class Parade extends Bataille {
 		}
 	}
 	
-	//C'est le même code entre attaque et parade
-	@Override
-	public boolean appliquer(Joueur j) {
-		for(Botte b:j.getBotteList()) {
-			if (b.getType().equals(this.getType())) {
-				return false;
-			}
-		}
-		j.getBataillePile().add(this);
-		return true;
-	}
 
 }
