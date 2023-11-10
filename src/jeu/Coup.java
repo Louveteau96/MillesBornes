@@ -1,6 +1,8 @@
 package jeu;
 
 
+import java.util.Objects;
+
 import cartes.Attaque;
 import cartes.Carte;
 import cartes.DebutLimite;
@@ -39,6 +41,6 @@ public class Coup {
 	
 	@Override
 	public int hashCode() {
-		return 0;
+		return Objects.hash(joueur,carte);
 	}
 }

@@ -1,6 +1,7 @@
 package jeu;
 
 import java.util.List;
+import java.util.Set;
 import java.util.Stack;
 import java.util.HashSet;
 
@@ -15,13 +16,13 @@ import cartes.Parade;
 public class Joueur {
 	private String nom;
 	private int km;
-	private Main main;	
+	private MainAsList main;	
 	private List<Borne> borneList;
 	private List<Botte> botteList;
 	private Stack<Limite> limitPile;
 	private Stack<Bataille> bataillePile;
 	
-	public Joueur(String nom, int km, Main main, List<Borne> borneList, List<Botte> botteList,Stack<Limite> limitPile,
+	public Joueur(String nom, int km, MainAsList main, List<Borne> borneList, List<Botte> botteList,Stack<Limite> limitPile,
 			Stack<Bataille> bataillePile) {
 		this.nom = nom;
 		this.km = 0;
@@ -63,7 +64,7 @@ public class Joueur {
 		main.prendre(carte);
 	}
 	
-	public Main getMain() {
+	public MainAsList getMain() {
 		return this.main;
 	}
 	
@@ -132,8 +133,29 @@ public class Joueur {
 				(containTypeBotte() && prioritaire));
 	}
 	
-	public List<Joueur> coupsPossibles(List<Joueur> participants){
-		HashSet<Coup> coups = new HashSet<>();
+	
+	//J'ai modifié pour que la classe prenne en parametre une classe MainAsList et non Main
+	public Set<Coup> coupsPossibles(List<Joueur> participants){
+		Set<Coup> coupsPossibles = new HashSet<>();
+		
+		for(Joueur cible : participants) {
+			for(Carte carte : this.getMain().getCarteEnMain()) {
+				Coup coup = new Coup(cible,carte);
+				if(coup.estValide(this)) {
+					coupsPossibles.add(coup);
+				}
+			}
+		}
+		return coupsPossibles;
+	}
+	
+	public Set<Coup> coupsParDefault(List<Joueur> participants) {
+	    Set<Coup> coups = new HashSet<>();
+	    
+	    for(Carte carte : main.getCarteEnMain()) {
+	    	coups.add(new Coup(null,carte));
+	    }
+	    return coups;
 	}
 
 }

@@ -21,6 +21,7 @@ public class MainAsList implements Main{
 		return nbCarte;
 	}
 	
+	
 	@Override
 	public void prendre(Carte carte) {
 		int oldNbCarte = nbCarte(carte);
