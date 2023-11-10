@@ -23,5 +23,10 @@ public class Borne extends Carte {
 		}
 		return false;
 	}
+	
+	//Rajout de la méthode toString()
+	public String toString() {
+		return "Borne " + this.km + " km";
+	}
 
 }

@@ -32,8 +32,7 @@ public class Utils {
 		while(iterator.hasNext() && carte != list.get(rand)) {
 			iterator.next();
 		}
-		T element = iterator.next();
-		return element;
+		return iterator.next();
 	}
 	
 	
@@ -46,42 +45,33 @@ public class Utils {
 	
 	
 	
-	public static Object verifierMelange(List<? extends Object> list1, List<? extends Object> list2) {
-		for (int i = 0; i < list1.size(); i++) {
-			//Si les deux éléments des listes sont des Cartes
-			if(list1.get(i) instanceof Carte && list2.get(i) instanceof Carte) {
-				int frq1 = Collections.frequency(list1, list1.get(i));
-				int frq2 = Collections.frequency(list2, list1.get(i));
-				if(frq1 != frq2){
-					return false;
-				}
-			}else {
-				throw new IllegalStateException("L'une des listes n'est pas d'un type attendu");
-			}
-		}
-		return true;
+	public static <T> boolean verifierMelange(List<T> list1, List<T> list2) {
+		return list1.size() == list2.size() &&
+	               list1.containsAll(list2) &&
+	               list2.containsAll(list1);
 	}
 	
-	public static List<Object> rassembler(List<? extends Object> list1){
-		List<Object> list2 = new ArrayList<>();
-		for (int i = 0; i < list1.size(); i++) {
-			Object object = list1.get(i);
-			//Si c'est une carte
-			if(object instanceof Carte) {
-				if(!list2.contains(object)) {
-					for (int j = 1; j < Collections.frequency(list1, object); j++) {
-						list2.add(object);
-					}
-					list1.removeAll((Collection<?>)object);
-				}
-			}else {
-				throw new IllegalStateException("Le type de la liste n'est pas attendu");
-			}
-		}
-		return list2;
-	}
+	public static <T> List<T> rassembler(List<T> liste) {
+        List<T> resultat = new ArrayList<>();
+        if (liste.isEmpty()) {
+            return resultat;
+        }
+
+        T precedent = liste.get(0);
+        resultat.add(precedent);
+
+        for (int i = 1; i < liste.size(); i++) {
+            T actuel = liste.get(i);
+            if (!actuel.equals(precedent)) {
+            	resultat.add(actuel);
+                precedent = actuel;
+            }
+        }
+
+        return resultat;
+    }
 	
-	public static boolean verifierRassemblement(List<? extends Object> list1) {
+	public static <T> boolean verifierRassemblement(List<T> list1) {
 		int indexFin = list1.size()-1;
 		int index = 0;
 		ListIterator<?> listIteratorDebut = list1.listIterator();
@@ -101,4 +91,27 @@ public class Utils {
 		return true;		
 	}
 
+
+	public static <T> boolean verifierRassemblement(List<T> listeRassemblee, List<T> listemelangee) {
+        if (listeRassemblee.size() > listemelangee.size()) {
+            return false;
+        }
+
+        int i = 0;
+        for (T elementRassemblee : listeRassemblee) {
+            while (i < listemelangee.size()) {
+                if (listemelangee.get(i).equals(elementRassemblee)) {
+                    i++;
+                    break;
+                }
+                i++;
+            }
+
+            if (i >= listemelangee.size() && !elementRassemblee.equals(listemelangee.get(listemelangee.size() - 1))) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }
