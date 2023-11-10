@@ -2,6 +2,7 @@ package jeu;
 
 import java.util.List;
 import java.util.Stack;
+import java.util.HashSet;
 
 import cartes.Bataille;
 import cartes.Borne;
@@ -129,6 +130,10 @@ public class Joueur {
 				(bataillePile.peek() instanceof Parade && prioritaire) ||
 				(bataillePile.peek().toString().equals("Feu rouge") && prioritaire) ||
 				(containTypeBotte() && prioritaire));
+	}
+	
+	public List<Joueur> coupsPossibles(List<Joueur> participants){
+		HashSet<Coup> coups = new HashSet<>();
 	}
 
 }

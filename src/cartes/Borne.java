@@ -1,5 +1,7 @@
 package cartes;
 
+import jeu.Joueur;
+
 public class Borne extends Carte {
 	private int km;
 
@@ -27,6 +29,11 @@ public class Borne extends Carte {
 	//Rajout de la méthode toString()
 	public String toString() {
 		return "Borne " + this.km + " km";
+	}
+	
+	@Override
+	public boolean appliquer(Joueur j) {
+		return (!j.estBloque()) && (this.km <= j.getLimite()) && (j.getKm()+this.getKm()<=1000);
 	}
 
 }

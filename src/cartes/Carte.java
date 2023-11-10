@@ -1,5 +1,7 @@
 package cartes;
 
+import jeu.Joueur;
+
 public abstract class Carte {
 	private int nombre;
 	
@@ -18,9 +20,16 @@ public abstract class Carte {
 	
 	
 	
-	
+	@Override
 	public boolean equals(Object carte) {
-		return  this.getClass()==carte.getClass();
+		if (carte instanceof Carte) {
+			return  this.getClass()==carte.getClass();
+		}
+		return false;
+	}
+	
+	public boolean appliquer(Joueur j) {
+		return false;
 	}
 
 
