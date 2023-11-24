@@ -17,6 +17,11 @@ public abstract class Carte {
 		this.nombre = nombre;
 	}
 	
+	@Override
+	public int hashCode() {
+		return this.toString().hashCode();
+	}
+	
 	
 	
 	

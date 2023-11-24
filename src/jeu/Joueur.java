@@ -5,6 +5,7 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 
 import cartes.Bataille;
 import cartes.Borne;
@@ -22,6 +23,7 @@ public class Joueur {
 	private List<Botte> botteList;
 	private Stack<Limite> limitPile;
 	private Stack<Bataille> bataillePile;
+	private Jeu jeu;
 	
 	public Joueur(String nom) {
 		this.nom = nom;
@@ -156,6 +158,47 @@ public class Joueur {
 	    	coups.add(new Coup(null,carte));
 	    }
 	    return coups;
+	}
+
+
+
+	public Jeu getJeu() {
+		return jeu;
+	}
+
+
+
+	public void setJeu(Jeu jeu) {
+		this.jeu = jeu;
+	}
+	
+	public Sabot getSabot() {
+		return this.jeu.getSabot();
+	}
+	
+	@Override
+	public int hashCode() {
+		return this.nom.hashCode();
+	}
+	
+	public Coup selectionner() {
+		Set<Coup> coups = coupsPossibles(this.jeu.listJoueurs());
+		if (coups.isEmpty()) {
+			return null;
+		}
+		Iterator<Coup> iterator = coups.iterator();
+		iterator.next().jouer(this);
+		return iterator.next();
+	}
+	
+	public Coup rendreCarte() {
+		Set<Coup> coups = coupsParDefault(this.jeu.listJoueurs());
+		if(coups.isEmpty()) {
+			return null;
+		}
+		Iterator<Coup> iterator = coups.iterator();
+		iterator.next().jouer(this);
+		return iterator.next();
 	}
 
 }

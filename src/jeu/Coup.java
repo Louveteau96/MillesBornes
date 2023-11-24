@@ -41,6 +41,21 @@ public class Coup {
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(joueur,carte);
+		return 7*joueur.hashCode() + carte.hashCode()*31;
+	}
+	
+	public boolean jouer(Joueur j) {
+		if(!(j.getJeu().equals(joueur.getJeu()))) {
+			//Remise de la carte dans le sabot
+			System.out.println(j.toString() + " repose la carte " + carte.toString());
+			this.joueur.getSabot().ajouterFamilleCarte(this.carte);
+			return true;
+		}
+		boolean bool = carte.appliquer(joueur);
+		if(bool) {
+			System.out.println(j.toString() + " utilise la carte " + carte.toString() + " sur " + joueur.toString());
+			joueur.getMain().jouer(carte);
+		}
+		return bool;
 	}
 }
